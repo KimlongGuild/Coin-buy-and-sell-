@@ -1,4 +1,4 @@
-const apiKey = 'YOUR_API_KEY'; // Thay thế bằng API key của bạn từ Fixer.io
+const apiKey = 70f256bb0ca7b67d9f82f0f4100206b0; // Thay thế bằng API key của bạn từ Fixer.io
 const apiUrl = http://data.fixer.io/api/latest?access_key=${apiKey};
 
 const fromCurrency = document.getElementById('fromCurrency');
