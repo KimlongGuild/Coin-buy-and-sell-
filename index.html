@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,88 +6,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Currency Converter</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 50px; }
-        .converter { margin-top: 20px; }
-        input, select { padding: 10px; margin: 10px; }
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        input, select {
+            margin: 10px;
+            padding: 8px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
-
     <h1>Currency Converter</h1>
-    
-    <!-- Thanh tìm kiếm đồng tiền -->
-    <label for="currency-search">Search Currency:</label>
-    <input type="text" id="currency-search" placeholder="Enter currency code (e.g., USD, VND)" oninput="searchCurrency()">
-    
-    <div class="converter">
-        <label for="amount">Amount:</label>
-        <input type="number" id="amount" value="1">
-        
-        <label for="from-currency">From:</label>
-        <select id="from-currency"></select>
-        
-        <label for="to-currency">To:</label>
-        <select id="to-currency"></select>
-        
+    <div>
+        <input type="number" id="amount" placeholder="Enter amount" />
+        <select id="fromCurrency">
+            <!-- List of currencies will be populated dynamically -->
+        </select>
+        <select id="toCurrency">
+            <!-- List of currencies will be populated dynamically -->
+        </select>
         <button onclick="convertCurrency()">Convert</button>
     </div>
+    <div id="result" style="margin-top: 20px; font-size: 20px;"></div>
 
-    <h2 id="result"></h2>
-
-    <script>
-        const apiKey = 70f256bb0ca7b67d9f82f0f4100206b0 ; // Thay thế bằng API key của bạn từ Fixer.io
-        let currencies = {};
-
-        // Hàm lấy danh sách đồng tiền
-        async function getCurrencies() {
-            const response = await fetch(`http://data.fixer.io/api/symbols?access_key=${apiKey}`);
-            const data = await response.json();
-            currencies = data.symbols;
-            populateCurrencyOptions();
-        }
-
-        // Hàm điền dữ liệu vào dropdown
-        function populateCurrencyOptions() {
-            const fromCurrency = document.getElementById('from-currency');
-            const toCurrency = document.getElementById('to-currency');
-            fromCurrency.innerHTML = toCurrency.innerHTML = '';
-            for (let currency in currencies) {
-                fromCurrency.innerHTML += `<option value="${currency}">${currency}</option>`;
-                toCurrency.innerHTML += `<option value="${currency}">${currency}</option>`;
-            }
-        }
-
-        // Hàm chuyển đổi tiền tệ
-        async function convertCurrency() {
-            const amount = document.getElementById('amount').value;
-            const from = document.getElementById('from-currency').value;
-            const to = document.getElementById('to-currency').value;
-
-            const response = await fetch(`http://data.fixer.io/api/latest?access_key=${apiKey}&symbols=${from},${to}`);
-            const data = await response.json();
-            const rate = data.rates[to] / data.rates[from];
-            const result = amount * rate;
-
-            document.getElementById('result').innerText = `${amount} ${from} = ${result.toFixed(2)} ${to}`;
-        }
-
-        // Hàm tìm kiếm đồng tiền
-        function searchCurrency() {
-            const searchQuery = document.getElementById('currency-search').value.toUpperCase();
-            const fromCurrency = document.getElementById('from-currency');
-            const toCurrency = document.getElementById('to-currency');
-
-            fromCurrency.innerHTML = toCurrency.innerHTML = '';
-            for (let currency in currencies) {
-                if (currency.startsWith(searchQuery)) {
-                    fromCurrency.innerHTML += `<option value="${currency}">${currency}</option>`;
-                    toCurrency.innerHTML += `<option value="${currency}">${currency}</option>`;
-                }
-            }
-        }
-
-        // Gọi hàm khi trang tải
-        getCurrencies();
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
